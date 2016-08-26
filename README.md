@@ -35,6 +35,21 @@ Plug the ChisteraPi on your RaspberryPi.
 
 Power on and connect into your RaspberryPi with SSH.
 
+Activation of the SPI :
+
+```bash
+    sudo raspi-config
+```
+
+Then select "9 - Advanced Options" then "A5 - SPI" and <Yes>.
+
+The lora_chisterapi library need the external library : wiringpi.
+If you don't have the library do :
+```bash
+    sudo apt-get update
+    sudo apt-get install wiringpi
+```
+
 Clone the repository :
 
 ```bash
@@ -44,7 +59,7 @@ Clone the repository :
 Get into the repository and select the example :
 
 ```bash
-	cd lmic_chisterapi
+	cd lora_chisterapi
     cp examples/sender.cpp src/main.cpp
             OR
     cp examples/receiver.cpp src/main.cpp 
