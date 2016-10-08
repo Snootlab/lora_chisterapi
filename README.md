@@ -5,8 +5,6 @@ LoRa ChisteraPi is the source code for LoRa transmissions with ChisteraPi.
 
 Products
 -------
-ChisteraPi light LoRa : https://snootlab.com/shields-snootlab/1151-.html
-
 ChisteraPi + accessories LoRa : https://snootlab.com/shields-snootlab/1152-.html
 
 Forums
