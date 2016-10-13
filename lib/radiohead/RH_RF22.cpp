@@ -78,7 +78,7 @@ void RH_RF22::setIdleMode(uint8_t idleMode)
 bool RH_RF22::init()
 {
 #if (RH_PLATFORM == RH_PLATFORM_RPI)
-    if (!RHLinuxSPI::init("/dev/spidev0.0"))
+    if (!RHLinuxSPI::init("/dev/spidev0.1"))
 #else
     if (!RHSPIDriver::init())
 #endif
