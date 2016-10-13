@@ -932,7 +932,7 @@ public:
     /// \param[in] spi Pointer to the SPI interface object to use.
     ///                Defaults to the standard Arduino hardware SPI interface
 #if (RH_PLATFORM == RH_PLATFORM_RPI)
-	RH_RF22(uint8_t slaveSelectPin = SS, uint8_t interruptPin = 22);
+	RH_RF22(uint8_t slaveSelectPin = 11, uint8_t interruptPin = 22);
 #else
     RH_RF22(uint8_t slaveSelectPin = SS, uint8_t interruptPin = 2, RHGenericSPI& spi = hardware_spi);
 #endif
