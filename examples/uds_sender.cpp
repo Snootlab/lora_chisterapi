@@ -44,6 +44,15 @@ void setup()
     rf95.setFrequency(868.0); /* Mhz */
 }
 
+/* Should we run or stop */
+
+int run = 1;
+
+void sigint_handler(int signal)
+{
+    run = 0;
+}
+
 /* Transmit wirelessly what is received from the socket */
 
 void loop(char *name)
@@ -62,7 +71,7 @@ void loop(char *name)
         perror("binding stream socket");
         exit(1);
     }
-    printf("using %s", name)
+    printf("using %s", name);
 
     /* process every client request */
 
@@ -90,7 +99,7 @@ void loop(char *name)
 
                 printf("--> %s\n", msg);
 
-                rf95.send(msg, sizeof(msg));
+                rf95.send((const uint8_t*)msg, (uint8_t)sizeof(msg));
                 rf95.waitPacketSent();
                 printf("transmitted\n");
 
@@ -104,15 +113,6 @@ void loop(char *name)
 
     close(sock);
     unlink(name);
-}
-
-/* Should we run or stop */
-
-int run = 1;
-
-void sigint_handler(int signal)
-{
-    run = 0;
 }
 
 /* Set everything and start processing */
@@ -129,7 +129,7 @@ int main(int argc, char **argv)
 
     setup();
 
-    loop(argv[1])
+    loop(argv[1]);
 
     return EXIT_SUCCESS;
 }
