@@ -1,0 +1,42 @@
+#
+# instructions for software compilation
+# -------------------------------------
+#
+# cd /opt
+# git clone https://github.com/Snootlab/lora_chisterapi
+# cd lora_chisterapi
+# cp examples/uds_sender.cpp src/main.cpp
+#            OR
+# cp examples/uds_receiver.cpp src/main.cpp
+# make
+#
+
+# instructions for service installation
+# -------------------------------------
+#
+# sudo cp examples/uds_chisterapi.service.example /etc/systemd/system/chisterapi.service
+# sudo chmod 664 /etc/systemd/system/chisterapi.service
+# sudo systemctl enable /etc/systemd/system/chisterapi.service
+# sudo systemctl start chisterapi.service
+# sudo systemctl status chisterapi.service
+#
+
+# instructions to check logs of the service
+# -----------------------------------------
+#
+# sudo journalctl -u chistera.service
+#
+
+
+[Unit]
+Description=LoRa Chistera over Unix Domain Socket
+After=multi-user.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/lora_chisterapi
+ExecStart=/usr/bin/stdbuf -oL /opt/lora_chisterapi/chisterapi /tmp/smart-video-counter-socket
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
