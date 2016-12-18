@@ -63,7 +63,16 @@ void loop(char *name)
 
     /* initialise socket file */
 
+    sock = socket(PF_UNIX, SOCK_STREAM, 0);
+    if(sock < 0)
+    {
+        perror("cannot create socket");
+        exit(1);
+    }
+
     unlink(name);
+
+    memset(&server, 0, sizeof(struct sockaddr_un));
     server.sun_family = AF_UNIX;
     strcpy(server.sun_path, name);
     if (bind(sock, (struct sockaddr *) &server, sizeof(struct sockaddr_un)))
