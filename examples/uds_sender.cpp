@@ -67,7 +67,7 @@ void loop(char *name)
     sock = socket(AF_UNIX, SOCK_STREAM, 0);
     if(sock < 0)
     {
-        perror("cannot create socket");
+        perror("socket");
         exit(1);
     }
 
@@ -78,20 +78,22 @@ void loop(char *name)
     strcpy(server.sun_path, name);
     if (bind(sock, (struct sockaddr *) &server, sizeof(struct sockaddr_un)))
     {
-        perror("binding stream socket");
+        perror("socket");
         exit(1);
     }
+
     chmod(server.sun_path, 0777);
-    printf("using %s\n", name);
+
+    printf("using socket %s\n", name);
 
     /* process every client request */
 
-    printf("running until you kill the process\n");
+    printf("sending radio packets until you kill the process\n");
     listen(sock, 5);
     while( run )
     {
 
-        printf("waiting for a connection\n");
+#        printf("waiting for a connection\n");
         msgsock = accept(sock, 0, 0);
         if (msgsock == -1)
             perror("accept");
@@ -100,23 +102,23 @@ void loop(char *name)
             /* get a message */
 
             bzero(msg, sizeof(msg));
-            if ((rval = read(msgsock, msg, 1024)) < 0)
+            if ((rval = read(msgsock, msg, sizeof(msg))) < 0)
                 perror("reading message");
-            else if (rval == 0)
-                printf("ending connection\n");
-            else {
+            else if (rval > 0)
+            {
 
                 /* transmit it wirelessly */
 
                 printf("--> %s\n", msg);
 
-                rf95.send((const uint8_t*)msg, (uint8_t)sizeof(msg));
+                rf95.send((uint8_t*)msg, rval);
                 rf95.waitPacketSent();
-                printf("transmitted\n");
+                printf("sent in the air\n");
 
             }
 
         } while (rval > 0);
+#        printf("ending connection\n");
         close(msgsock);
     }
 
