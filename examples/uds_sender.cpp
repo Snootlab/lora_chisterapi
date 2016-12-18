@@ -80,7 +80,7 @@ void loop(char *name)
         perror("binding stream socket");
         exit(1);
     }
-    printf("using %s", name);
+    printf("using %s\n", name);
 
     /* process every client request */
 
