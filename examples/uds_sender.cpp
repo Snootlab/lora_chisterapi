@@ -93,7 +93,6 @@ void loop(char *name)
     while( run )
     {
 
-#        printf("waiting for a connection\n");
         msgsock = accept(sock, 0, 0);
         if (msgsock == -1)
             perror("accept");
@@ -118,7 +117,6 @@ void loop(char *name)
             }
 
         } while (rval > 0);
-#        printf("ending connection\n");
         close(msgsock);
     }
 
