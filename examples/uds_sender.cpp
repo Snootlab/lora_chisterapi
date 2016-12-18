@@ -63,7 +63,7 @@ void loop(char *name)
 
     /* initialise socket file */
 
-    sock = socket(PF_UNIX, SOCK_STREAM, 0);
+    sock = socket(AF_UNIX, SOCK_STREAM, 0);
     if(sock < 0)
     {
         perror("cannot create socket");
@@ -80,11 +80,12 @@ void loop(char *name)
         perror("binding stream socket");
         exit(1);
     }
+    chmod(server.sun_path, 0777);
     printf("using %s\n", name);
 
     /* process every client request */
 
-    printf("hit Ctl-C to break\n");
+    printf("running until you kill the process\n");
     listen(sock, 5);
     while( run )
     {
