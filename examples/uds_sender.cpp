@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
+#include <sys/stat.h>
 
 #include <RH_RF95.h>
 
