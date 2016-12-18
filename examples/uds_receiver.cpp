@@ -47,7 +47,7 @@ void setup()
 
 /* Push to the socket what is received wirelessly */
 
-void loop(char *name)
+int loop(char *name)
 {
     int sock;
     struct sockaddr_un server;
@@ -56,20 +56,24 @@ void loop(char *name)
 
     if( rf95.available() )
     {
-        char msg[RH_RF95_MAX_MESSAGE_LEN];
-        int len = sizeof(buf);
+        uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
+        uint8_t len = sizeof(buf);
 
-        if (rf95.recv(msg, &len))
+        if (rf95.recv(buf, &len))
         {
 
             /* push it to socket */
+
+            char msg[len+1];
+            for(int i=0; i<len; i++) { msg[i] = (char)buf[i]; }
+            msg[len] =  0x00;
 
             printf("--> %s\n", msg);
 
             sock = socket(AF_UNIX, SOCK_STREAM, 0);
             if (sock < 0)
             {
-                perror("opening stream socket");
+                perror("socket");
                 return 1;
             }
             server.sun_family = AF_UNIX;
@@ -78,14 +82,12 @@ void loop(char *name)
             if (connect(sock, (struct sockaddr *) &server, sizeof(struct sockaddr_un)) < 0)
             {
                 close(sock);
-                perror("connecting stream socket");
+                perror("connect");
                 return 1;
             }
 
-            if (write(sock, msg, sizeof(msg)) < 0)
-                close(sock);
-                perror("writing on stream socket");
-                return 1;
+            write(sock, (char*)buf, len);
+            printf("written to socket\n");
 
             close(sock);
 
@@ -112,15 +114,18 @@ int main(int argc, char **argv)
         printf("usage:%s <path_name>", argv[0]);
         exit(1);
     }
+    printf("using socket %s\n", argv[1]);
 
     signal(SIGINT, sigint_handler);
 
+    printf("radio initialisation\n");
     setup();
 
+    printf("receiving radio packets until you kill the process\n");
     while( run )
     {
         loop(argv[1]);
-        usleep(1);
+        usleep(10000);
     }
 
     return EXIT_SUCCESS;
