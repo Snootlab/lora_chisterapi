@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
+#include <ctime>
+#include <iostream>
 
 #include <RH_RF95.h>
 
@@ -32,7 +34,19 @@ void sigalarm_handler(int signal)
  
     rf95.send(msg, sizeof(msg));
     rf95.waitPacketSent();
-    printf("Send!\n");
+
+    // Log sending time
+    std::time_t t = std::time(0);                                                                 
+    std::tm* now = std::localtime(&t);
+    std::cout << '['
+              << (now->tm_year + 1900) << '-'
+              << (now->tm_mon + 1) << '-'
+              <<  now->tm_mday << '-'
+              <<  now->tm_hour << '-'
+              <<  now->tm_min << '-'
+              <<  now->tm_sec << "] "
+              << "Send!\n";
+
     alarm(3);
 }
 
