@@ -39,7 +39,7 @@ Activation of the SPI :
     sudo raspi-config
 ```
 
-Then select "9 - Advanced Options" then "A5 - SPI" and <Yes>.
+Then select "5 Interfacing Options" then "P4 SPI" and <Yes> (Tested on version 20180518).
 
 The lora_chisterapi library need the external library : wiringpi.
 If you don't have the library do :
