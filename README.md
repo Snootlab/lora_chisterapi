@@ -51,13 +51,13 @@ If you don't have the library do :
 Clone the repository :
 
 ```bash
-	git clone https://github.com/Snootlab/lora_chisterapi
+    git clone https://github.com/Snootlab/lora_chisterapi
 ```
 
 Get into the repository and select the example :
 
 ```bash
-	cd lora_chisterapi
+    cd lora_chisterapi
     cp examples/sender.cpp src/main.cpp
             OR
     cp examples/receiver.cpp src/main.cpp 
@@ -67,6 +67,6 @@ Compile and execute the example :
 
 ```bash
     make
-	sudo ./chisterapi
+    sudo ./chisterapi
 ```
 
