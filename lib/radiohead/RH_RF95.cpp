@@ -45,6 +45,10 @@ bool RH_RF95::init()
 #endif
 	return false;
 
+#if (RH_PLATFORM == RH_PLATFORM_RPI)
+	RHLinuxSPI::begin("/dev/spidev0.0");
+#endif
+
     // Determine the interrupt number that corresponds to the interruptPin
 #if (RH_PLATFORM != RH_PLATFORM_RPI)
     int interruptNumber = digitalPinToInterrupt(_interruptPin);
