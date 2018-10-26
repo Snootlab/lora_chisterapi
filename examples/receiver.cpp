@@ -12,6 +12,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
+#include <ctime>
+#include <iostream>
+#include <iomanip>
 
 #include <RH_RF95.h>
 
@@ -58,13 +61,28 @@ void loop()
 
         if (rf95.recv(buf, &len)) 
         {
-            printf("from %d, number %d\n", buf[0], buf[1]);
+
+            // Log receiving time
+            std::time_t t = std::time(0);
+            std::tm* now = std::localtime(&t);
+            std::cout << '['
+                      << (now->tm_year + 1900) << '-'
+                      << (now->tm_mon + 1) << '-'
+                      <<  now->tm_mday << ' '
+                      <<  now->tm_hour << ':'
+                      << std::setfill('0') <<  std::setw(2)
+                      << now->tm_min << ':'
+                      << std::setfill('0') <<  std::setw(2)
+                      << now->tm_sec << "] from "
+                      <<  unsigned(buf[0]) << ", number "
+                      <<  unsigned(buf[1]) << "\n";
         }
     }
 }
 
 int main(int argc, char **argv)
 { 
+    std::cout << "Receiver example\n";
     signal(SIGINT, sigint_handler);
 
     setup();

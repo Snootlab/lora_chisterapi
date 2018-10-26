@@ -16,6 +16,7 @@
 #include <signal.h>
 #include <ctime>
 #include <iostream>
+#include <iomanip>
 
 #include <RH_RF95.h>
 
@@ -36,16 +37,19 @@ void sigalarm_handler(int signal)
     rf95.waitPacketSent();
 
     // Log sending time
-    std::time_t t = std::time(0);                                                                 
+    std::time_t t = std::time(0);
     std::tm* now = std::localtime(&t);
     std::cout << '['
               << (now->tm_year + 1900) << '-'
               << (now->tm_mon + 1) << '-'
-              <<  now->tm_mday << '-'
-              <<  now->tm_hour << '-'
-              <<  now->tm_min << '-'
-              <<  now->tm_sec << "] "
-              << "Send!\n";
+              <<  now->tm_mday << ' '
+              <<  now->tm_hour << ':'
+              << std::setfill('0') <<  std::setw(2)
+              << now->tm_min << ':'
+              << std::setfill('0') <<  std::setw(2)
+              << now->tm_sec << "] from "
+              <<  unsigned(msg[1]) << " from "
+              <<  unsigned(msg[0]) << "\n";
 
     alarm(3);
 }
@@ -82,6 +86,7 @@ void loop()
 
 int main(int argc, char **argv)
 {
+    std::cout << "Sender example\n";
     if( argc == 2 )
         node_number = atoi(argv[1]);
     
