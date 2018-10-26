@@ -26,8 +26,7 @@ bool RHLinuxSPI::init(const char* pDevice)
 		perror("Unable to open SPI device");
 		return false;
 	}
-	usleep(100000);
-
+	RHLinuxSPI::begin();
 	return true;
 }
 
@@ -128,7 +127,7 @@ int RHLinuxSPI::exchange(uint32_t length)
 	return ret;
 }
 
-void RHLinuxSPI::begin(char* pDevice)
+void RHLinuxSPI::begin()
 {
 #ifdef RH_LINUX_SPI_DEBUG
 	printf("RHLinuxSPI::begin()\n");

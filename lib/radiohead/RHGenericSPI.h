@@ -100,11 +100,7 @@ public:
 
     /// Initialise the SPI library.
     /// Call this after configuring and before using the SPI library
-#if (RH_PLATFORM == RH_PLATFORM_RPI)
-    virtual void begin(char*) = 0;
-#else
     virtual void begin() = 0;
-#endif
     /// Disables the SPI bus (leaving pin modes unchanged). 
     /// Call this after you have finished using the SPI interface
     virtual void end() = 0;

@@ -71,7 +71,7 @@ public:
     /// Initialise the SPI library
     /// Call this after configuring the SPI interface and before using it to transfer data.
     /// Initializes the SPI bus by setting SCK, MOSI, and SS to outputs, pulling SCK and MOSI low, and SS high.
-    void begin(char*);
+    void begin();
 
     /// Disables the SPI bus (leaving pin modes unchanged).
     /// Call this after you have finished using the SPI interface.
